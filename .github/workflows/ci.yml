@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Project
+        uses: ./.github/common/setup
+      - name: Run Lint
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Project
+        uses: ./.github/common/setup
+      - name: Run Type Check
+        run: vendor/bin/phpstan analyse
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Project
+        uses: ./.github/common/setup
+      - name: Run Test
+        run: php artisan test

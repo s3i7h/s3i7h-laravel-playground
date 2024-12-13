@@ -1,0 +1,28 @@
+name: "PHP Setup Action"
+description: "Setup PHP before other actions"
+runs:
+  using: "composite"
+  steps:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3.14
+        # extensions:  # 必要に応じてextensionsを追加
+    - name: Cache Vendor
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: ./vendor
+        key: vendor-${{ runner.os }}-${{ github.ref }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |  # 上から順に優先的に復元する
+          vendor-${{ runner.os }}-${{ github.ref }}-
+          vendor-${{ runner.os }}-${{ github.base_ref }}-
+          vendor-${{ runner.os }}-
+    - name: Composer Install
+      shell: bash
+      run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+    - name: Setup .env
+      shell: bash
+      run: |
+        cp .env.example .env
+        php artisan key:generate
