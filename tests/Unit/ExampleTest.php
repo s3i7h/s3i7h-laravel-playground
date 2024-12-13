@@ -8,9 +8,15 @@ class ExampleTest extends TestCase
 {
     /**
      * A basic test example.
+     * @noinspection PhpRedundantVariableDocTypeInspection
+     * @noinspection PhpConditionAlreadyCheckedInspection
      */
     public function test_that_true_is_true(): void
     {
-        $this->assertTrue(true);
+        /**
+         * @var bool $someVariable
+         */
+        $someVariable = true;
+        $this->assertTrue($someVariable);
     }
 }
