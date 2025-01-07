@@ -3,43 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pet;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Request;
 
 class Pets extends Controller
 {
-    public function __construct(
-        readonly private App      $app,
-        readonly private Request  $request,
-        readonly private Response $response
-    )
-    {
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $limit = $this->request::get('limit');
-        if (!\is_null($limit)) $limit = (int)$limit;
+        /**
+         * @var string|null $limit
+         */
+        $limit = $request->get('limit');
+        $pets = Pet::query()->limit((int)$limit)->get();
 
-        $pets = Pet::query()->limit($limit)->get();
-
-        return $this->response::json($pets);
+        return new JsonResponse($pets);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): HttpResponse
+    public function store(Request $request): Response
     {
-        $pet = Pet::factory()->create($request::all());
+        /**
+         * @var array<string, mixed> $input
+         */
+        $input = $request->all();
+        $pet = Pet::factory()->create($input);
         $pet->save();
-        return $this->response::noContent(201);
+        return new Response(status: 201);
     }
 
     /**
@@ -47,8 +42,7 @@ class Pets extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $pet = Pet::query()->find($id);
-        if (\is_null($pet)) $this->app::abort(404);
-        return $this->response::json($pet);
+        $pet = Pet::query()->find($id) ?: \abort(404);
+        return new JsonResponse($pet);
     }
 }
