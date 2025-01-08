@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Book;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,6 +18,12 @@ class BookResource extends JsonResource
      */
     public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
-        return parent::toArray($request);
+        /** @var Book $model */
+        $model = $this->resource;
+        return [
+            'id' => $model->id,
+            'name' => $model->name,
+            'isbn' => $model->isbn,
+        ];
     }
 }
