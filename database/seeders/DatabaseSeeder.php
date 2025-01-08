@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Pet;
+use App\Models\Book;
+use App\Models\BookStock;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Pet::factory(10)->create();
+        Book::factory(10)->create();
+        BookStock::factory(20)->create();
     }
 }

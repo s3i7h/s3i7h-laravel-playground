@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Pet;
+use App\Models\Book;
+use App\Models\BookStock;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Pet>
+ * @extends Factory<BookStock>
  */
-class PetFactory extends Factory
+class BookStockFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +19,9 @@ class PetFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->firstName(),
-            'tag' => fake()->optional()->word(),
-            //
+            'book_id' => function () {
+                return $this->faker->randomElement(Book::all())->id;
+            },
         ];
     }
 }
