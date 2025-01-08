@@ -16,12 +16,12 @@ RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoload
 
 COPY . /var/www/
 RUN composer run post-autoload-dump && \
-    chmod -R 777 /var/www/database && \
-    chmod -R 777 /var/www/storage && \
+    touch /var/www/database/database.sqlite && \
+    cp .env.example .env && \
     echo "Listen 8000" >> /etc/apache2/ports.conf && \
     echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/docker-php-error-log.ini && \
-    cp .env.example .env && \
-    touch /var/www/database/database.sqlite && \
+    chmod -R 777 /var/www/database && \
+    chmod -R 777 /var/www/storage && \
     php artisan key:generate && \
     php artisan migrate:fresh && \
     a2enmod rewrite
