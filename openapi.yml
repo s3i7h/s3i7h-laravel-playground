@@ -69,8 +69,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/BookStock'
+  /books/{id}/stocks:
+    get:
+      summary: List all stocks for a specific book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookStock'
     post:
-      summary: Create a new book stock entry
+      summary: Create a new book stock entry for a specific book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -85,11 +109,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/BookStock'
 
-  /book-stocks/{id}:
+  /books/{book_id}/stocks/{book_stock_id}:
     get:
       summary: Get a specific book stock
       parameters:
-        - name: id
+        - name: book_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: book_stock_id
           in: path
           required: true
           schema:
