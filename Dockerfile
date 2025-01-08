@@ -1,4 +1,4 @@
-FROM php:8.3.14-apache
+FROM --platform=linux/amd64 php:8.3.14-apache
 
 WORKDIR /var/www/
 
@@ -19,7 +19,10 @@ RUN composer run post-autoload-dump && \
     chmod -R 777 /var/www/database && \
     chmod -R 777 /var/www/storage && \
     echo "Listen 8000" >> /etc/apache2/ports.conf && \
+    cp .env.example .env && \
+    touch /var/www/database/database.sqlite && \
     php artisan key:generate && \
+    php artisan migrate:fresh && \
     a2enmod rewrite
 
 EXPOSE 8000
