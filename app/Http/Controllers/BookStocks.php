@@ -13,7 +13,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BookStocks extends Controller
 {
-    public function list_book_stocks(ListBookStocksRequest $request): ResourceCollection
+    public function listBookStocks(ListBookStocksRequest $request): ResourceCollection
     {
         /**
          * @var string|int $limit
@@ -25,14 +25,14 @@ class BookStocks extends Controller
         return BookStockResource::collection($stocks);
     }
 
-    public function get_book_stocks(int $book_id, GetBookStocksRequest $request): ResourceCollection
+    public function getBookStocks(int $bookId, GetBookStocksRequest $request): ResourceCollection
     {
         /**
          * @var string|int $limit
          */
         $limit = $request->validated('limit');
         $limit = (int)($limit ?: -1);
-        $stocks = BookStock::query()->where('book_id', $book_id)->limit($limit)->get();
+        $stocks = BookStock::query()->where('book_id', $bookId)->limit($limit)->get();
 
         return BookStockResource::collection($stocks);
     }
@@ -40,13 +40,13 @@ class BookStocks extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function create_book_stock(int $book_id, CreateBookStockRequest $request): BookStockResource
+    public function createBookStock(int $bookId, CreateBookStockRequest $request): BookStockResource
     {
         /**
          * @var array<string, mixed> $input
          */
         $input = $request->validated();
-        $book = Book::query()->find($book_id) ?: \abort(404);
+        $book = Book::query()->find($bookId) ?: \abort(404);
         $stock = new BookStock($input);
         $stock->book_id = $book->id;
         $stock->save();
@@ -56,9 +56,9 @@ class BookStocks extends Controller
     /**
      * Display the specified resource.
      */
-    public function get_book_stock(int $book_id, int $book_stock_id, GetBookStockRequest $request): BookStockResource
+    public function getBookStock(int $bookId, int $bookStockId, GetBookStockRequest $request): BookStockResource
     {
-        $stock = BookStock::query()->where('book_id', $book_id)->find($book_stock_id) ?: \abort(404);
+        $stock = BookStock::query()->where('book_id', $bookId)->find($bookStockId) ?: \abort(404);
         return new BookStockResource($stock);
     }
 }

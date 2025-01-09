@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
+/**
+ * @property BookStock $resource
+ */
 class BookStockResource extends JsonResource
 {
     /**
@@ -18,7 +21,6 @@ class BookStockResource extends JsonResource
      */
     public function toArray(Request $request): array|JsonSerializable|Arrayable
     {
-        /** @var BookStock $model */
         $model = $this->resource;
         return [
             'id' => $model->id,

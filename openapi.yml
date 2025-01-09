@@ -171,8 +171,3 @@ components:
 
     BookStockCreate:
       type: object
-      properties:
-        book_id:
-          type: integer
-      required:
-        - book_id

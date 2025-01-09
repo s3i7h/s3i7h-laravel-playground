@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class Books extends Controller
 {
-    public function list_books(ListBooksRequest $request): ResourceCollection
+    public function listBooks(ListBooksRequest $request): ResourceCollection
     {
         /**
          * @var string|int $limit
@@ -26,7 +26,7 @@ class Books extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function create_book(CreateBookRequest $request): BookResource
+    public function createBook(CreateBookRequest $request): BookResource
     {
         /**
          * @var array<string, mixed> $input
@@ -40,7 +40,7 @@ class Books extends Controller
     /**
      * Display the specified resource.
      */
-    public function get_book(int $id, GetBookRequest $request): BookResource
+    public function getBook(int $id, GetBookRequest $request): BookResource
     {
         $book = Book::query()->find($id) ?: \abort(404);
         return new BookResource($book);
